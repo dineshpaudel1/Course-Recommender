@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <!-- Swiper.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    {% include 'pages/Navbar.html' %}
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-16 px-10 mt-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-[#3B3F58] mt-1">Featured Courses</h2>
+            </div>
+
+            <!-- Swiper Slider Container -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {% for course in courses %}
+                    <div class="swiper-slide p-1">
+                        {% include 'pages/Course_Card.html' %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Swiper Navigation Buttons -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        {% if user.is_authenticated and recommended_courses %}
+        <section class="mt-12">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-xl font-bold text-[#3B3F58] mb-4">Recommended for You</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {% for course in recommended_courses %}
+                    <div class="swiper-slide p-1">
+                        {% include 'pages/Course_Card.html' %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Trending Searches Section -->
+        <section class="mt-12 mb-10">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-wrap items-center mb-4">
+                    <h2 class="text-xl font-bold text-[#3B3F58] mr-2">Trending Searches</h2>
+                    <div class="flex flex-wrap gap-1 mt-1 sm:mt-0">
+                        {% for trend in trending_data %}
+                        <a href="{% url 'search' %}?q={{ trend.keyword }}"
+                            class="px-2 py-0.5 bg-white text-[#3B3F58] text-xs rounded-full border border-gray-200 hover:bg-[#3B3F58] hover:text-white transition-colors duration-200">
+                            {{ trend.keyword }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {% for trend in trending_data %}
+                    {% for course in trend.courses %}
+                    <div class="swiper-slide p-1">
+                        {% include 'pages/Course_Card.html' %}
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {% include 'pages/Footer.html' %}
+    <script>
+        const swiper = new Swiper('.swiper-container', {
+            slidesPerView: 2,
+            spaceBetween: 12,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 3,
+                    spaceBetween: 16,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 16,
+                },
+                1280: {
+                    slidesPerView: 5,
+                    spaceBetween: 16,
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
