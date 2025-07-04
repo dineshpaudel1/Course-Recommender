@@ -1,0 +1,60 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-screen">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Admin · Course Recommender{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+/* Lightweight, cross-browser: WebKit + Firefox */
+.table-scroll {
+  scrollbar-gutter: stable both-edges;  /* keeps layout from shifting */
+}
+
+/* Chrome / Edge / Safari */
+.table-scroll::-webkit-scrollbar {
+  width: 8px;          /* slim bar */
+}
+.table-scroll::-webkit-scrollbar-track {
+  background: var(--menu-bg);
+  border-radius: 9999px;
+}
+.table-scroll::-webkit-scrollbar-thumb {
+  background: var(--hover-bg);
+  border-radius: 9999px;
+}
+
+/* Firefox */
+.table-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hover-bg) var(--menu-bg);
+}
+</style>
+
+
+<body class="min-h-screen bg-gray-50 text-gray-800 antialiased flex flex-col">
+
+  <!-- Navbar -->
+  {% include "adminpanel/partials/navbar.html" %}
+
+  <!-- Main Wrapper -->
+  <div class="pt-16 flex-1 flex overflow-hidden pl-5">
+    {% include "adminpanel/partials/sidebar.html" %}
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-8 ml-64">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <!-- Fixed Footer -->
+  <footer class="fixed bottom-0 left-0 w-full bg-slate-800 text-gray-200 text-center text-sm py-3 shadow">
+    © 2025 Course Recommender. All rights reserved.
+  </footer>
+
+</body>
+
+</html>

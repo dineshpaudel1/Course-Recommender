@@ -1,0 +1,43 @@
+<aside class="w-60 bg-white shadow-md rounded-r-2xl h-[calc(85vh-4rem)] mt-8 flex flex-col justify-between fixed">
+
+  <!-- Navigation -->
+  <nav class="p-6 space-y-2">
+    <a href="{% url 'admin_dashboard' %}"
+       class="block px-4 py-2 rounded-lg transition 
+              {% if request.path == '/admin/' %}
+                bg-indigo-100 text-indigo-700 font-semibold
+              {% else %}
+                text-gray-700 hover:bg-gray-100
+              {% endif %}">
+      🏠 Dashboard
+    </a>
+    
+    <a href="{% url 'admin_courses' %}"
+       class="block px-4 py-2 rounded-lg transition 
+              {% if request.path == '/admin/courses/' %}
+                bg-indigo-100 text-indigo-700 font-semibold
+              {% else %}
+                text-gray-700 hover:bg-gray-100
+              {% endif %}">
+      📚 Courses
+    </a>
+
+    <a href="{% url 'admin_users' %}"
+       class="block px-4 py-2 rounded-lg transition 
+              {% if request.path == '/admin/users/' %}
+                bg-indigo-100 text-indigo-700 font-semibold
+              {% else %}
+                text-gray-700 hover:bg-gray-100
+              {% endif %}">
+      👥 Users
+    </a>
+  </nav>
+
+  <!-- Logout -->
+  <div class="px-6 pb-6">
+    <a href="{% url 'admin_logout' %}" 
+       class="block w-full text-center text-red-600 font-semibold hover:text-red-700">
+      Logout
+    </a>
+  </div>
+</aside>

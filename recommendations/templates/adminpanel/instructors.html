@@ -1,0 +1,59 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Instructors · Admin{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-xl shadow overflow-x-hidden max-h-[75vh] overflow-y-auto table-scroll">
+  <table class="min-w-full text-left text-sm">
+   <thead>
+  <tr class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
+    <th class="p-4 sticky top-0 bg-gray-50 z-10">Photo</th>
+    <th class="p-4 sticky top-0 bg-gray-50 z-10">Name</th>
+    <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Courses</th>  <!-- NEW -->
+  </tr>
+</thead>
+
+<tbody class="divide-y divide-gray-100">
+  {% for inst in instructors %}
+    <tr class="hover:bg-gray-50">
+      <!-- Photo -->
+      <td class="p-4">
+        {% if inst.photo %}
+          <img src="{{ inst.photo }}" class="h-10 w-10 rounded-full object-cover ring-2 ring-indigo-600" />
+        {% else %}
+          <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500">—</div>
+        {% endif %}
+      </td>
+
+      <!-- Name -->
+      <td class="p-4 font-medium text-gray-900">{{ inst.name }}</td>
+
+      <!-- Course count -->
+      <td class="p-4 text-center">{{ inst.course_total }}</td>      <!-- NEW -->
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="3" class="p-6 text-center text-gray-500">No instructors found.</td>
+    </tr>
+  {% endfor %}
+</tbody>
+  </table>
+</div>
+
+{% if instructors.paginator.num_pages > 1 %}
+  <div class="mt-4 flex justify-center gap-2">
+    {% if instructors.has_previous %}
+      <a href="?page={{ instructors.previous_page_number }}"
+         class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm">‹ Prev</a>
+    {% endif %}
+    <span class="px-3 py-1 bg-gray-100 rounded text-sm">
+      Page {{ instructors.number }} of {{ instructors.paginator.num_pages }}
+    </span>
+    {% if instructors.has_next %}
+      <a href="?page={{ instructors.next_page_number }}"
+         class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm">Next ›</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

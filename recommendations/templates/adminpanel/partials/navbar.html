@@ -1,0 +1,38 @@
+<header class="fixed top-0 inset-x-0 z-50 h-16 bg-white border-b shadow-sm flex items-center justify-between px-6">
+  <!-- Brand -->
+  <a href="{% url 'home' %}" class="flex items-center gap-2 font-semibold text-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4 6a2 2 0 0 1 2-2h5v4H4V6zM4 10h7v4H4v-4zm0 8v-4h7v4H6a2 2 0 0 1-2-2zm9-12h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5V4z"/>
+    </svg>
+    <span>Course&nbsp;<span class="text-indigo-600">Recommender</span></span>
+  </a>
+
+  <!-- Search -->
+  <form action="{% url 'admin_search' %}" method="get" class="flex-1 max-w-xl mx-10">
+    <label class="relative block">
+      <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/>
+        </svg>
+      </span>
+      <input name="q"
+             type="search"
+             placeholder="Search for courses…"
+             class="w-full pl-12 pr-4 py-2 rounded-full border border-gray-300 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+    </label>
+  </form>
+
+  <!-- Right-hand actions -->
+  <div class="flex items-center gap-4">
+    <button class="relative p-2 text-gray-600 hover:text-indigo-600">
+      <!-- bell icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 1 0-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 1 1-6 0v-1"/>
+      </svg>
+    </button>
+   <img src="/media/admin_photos/default.png"
+     alt="default avatar"
+     class="h-9 w-9 rounded-full object-cover ring-1 ring-gray-300" />
+  </div>
+</header>

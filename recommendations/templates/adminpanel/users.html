@@ -1,0 +1,87 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Users · Admin{% endblock %}
+
+{% block content %}
+
+<div class="bg-white rounded-xl shadow overflow-x-hidden max-h-[75vh] overflow-y-auto table-scroll">
+  <table class="min-w-full text-left text-sm">
+    <thead>
+      <tr class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
+        <th class="p-4 sticky top-0 bg-gray-50 z-10">Username</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10">Email</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10">Full Name</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10">Phone</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Joined</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Status</th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-100">
+      {% for user in users %}
+        <tr class="hover:bg-gray-50">
+          <!-- Username -->
+          <td class="p-4">{{ user.username }}</td>
+
+          <!-- Email -->
+          <td class="p-4">{{ user.email|default:"—" }}</td>
+
+          <!-- Full name from profile -->
+          <td class="p-4">
+            {{ user.userprofile.full_name|default:"—" }}
+          </td>
+
+          <!-- Phone from profile -->
+          <td class="p-4">
+            {{ user.userprofile.contact_number|default:"—" }}
+          </td>
+
+          <!-- Joined -->
+          <td class="p-4 text-center">
+            {{ user.date_joined|date:"M d, Y" }}
+          </td>
+
+          <!-- Active / Inactive badge -->
+          <td class="p-4 text-center">
+            {% if user.is_active %}
+              <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">Active</span>
+            {% else %}
+              <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700">Inactive</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6" class="p-6 text-center text-gray-500">
+            No users found.
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination controls -->
+{% if users.paginator.num_pages > 1 %}
+  <div class="mt-4 flex justify-center gap-2">
+    {% if users.has_previous %}
+      <a href="?page={{ users.previous_page_number }}"
+         class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm">
+        ‹ Prev
+      </a>
+    {% endif %}
+
+    <span class="px-3 py-1 bg-gray-100 rounded text-sm">
+      Page {{ users.number }} of {{ users.paginator.num_pages }}
+    </span>
+
+    {% if users.has_next %}
+      <a href="?page={{ users.next_page_number }}"
+         class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm">
+        Next ›
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

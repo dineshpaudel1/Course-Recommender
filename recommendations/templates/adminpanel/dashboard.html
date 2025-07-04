@@ -1,0 +1,102 @@
+{% extends "adminpanel/base.html" %}
+
+{% block content %}
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- Total Courses -->
+  <div class="bg-white rounded-xl shadow-md p-6">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <p class="text-sm text-gray-500 font-medium">Total Courses</p>
+        <p class="text-3xl font-bold text-gray-800">{{ course_count }}</p>
+      </div>
+      <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+        📘
+      </div>
+    </div>
+    <a href="{% url 'admin_courses' %}" class="text-sm text-indigo-600 font-medium hover:underline">
+      View Details
+    </a>
+  </div>
+
+  
+  <!-- Total Users -->
+<div class="bg-white rounded-xl shadow-md p-6">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <p class="text-sm text-gray-500 font-medium">Total Users</p>
+      <p class="text-3xl font-bold text-gray-800">{{ user_count }}</p>
+    </div>
+    <div class="bg-gray-200 text-gray-800 p-3 rounded-full">
+      👤
+    </div>
+  </div>
+
+  <!-- ✅ Replace # with real route -->
+  <a href="{% url 'admin_users' %}" class="text-sm text-indigo-600 font-medium hover:underline">
+    View Details
+  </a>
+</div>
+
+
+  <!-- Total Instructors -->
+  <div class="bg-white rounded-xl shadow-md p-6">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <p class="text-sm text-gray-500 font-medium">Total Instructors</p>
+      <p class="text-3xl font-bold text-gray-800">{{ instructor_count }}</p>
+    </div>
+    <div class="bg-purple-100 text-purple-600 p-3 rounded-full">
+      🧑‍🏫
+    </div>
+  </div>
+
+  <!-- ✅ Link to instructors page -->
+  <a href="{% url 'admin_instructors' %}" class="text-sm text-indigo-600 font-medium hover:underline">
+    View Details
+  </a>
+</div>
+
+</div>
+
+<!-- Additional Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+
+  <!-- 🔥 Most Viewed Courses -->
+ <div class="bg-white rounded-xl shadow-md p-6">
+  <h2 class="text-lg font-semibold mb-4 text-gray-800">Top 5 Most Viewed Courses</h2>
+  {% if popular_courses %}
+    <ul class="divide-y divide-gray-200">
+      {% for course in popular_courses %}
+        <li class="py-2 flex justify-between items-center">
+          <a href="{% url 'admin_course_details' course.id %}" class="text-sm text-indigo-700 hover:underline">
+            {{ course.title }}
+          </a>
+          <span class="text-sm text-indigo-600 font-semibold">{{ course.view_count }} views</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-sm text-gray-500">No courses viewed yet.</p>
+  {% endif %}
+</div>
+  <!-- 🧾 Recent Users -->
+  <div class="bg-white rounded-xl shadow-md p-6">
+    <h2 class="text-lg font-semibold mb-4 text-gray-800">Recently Registered Users</h2>
+    {% if recent_users %}
+      <ul class="divide-y divide-gray-200">
+        {% for user in recent_users %}
+          <li class="py-2 flex justify-between items-center">
+            <span class="text-sm text-gray-700">{{ user.username }}</span>
+            <span class="text-xs text-gray-500">{{ user.date_joined|date:"M d, Y H:i" }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-sm text-gray-500">No recent users found.</p>
+    {% endif %}
+  </div>
+
+</div>
+
+{% endblock %}

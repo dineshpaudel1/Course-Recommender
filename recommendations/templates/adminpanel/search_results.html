@@ -1,0 +1,51 @@
+{% extends "adminpanel/base.html" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="px-6 py-5">
+
+  <!-- WRAPPED CONTAINER -->
+  <div class="bg-white rounded-2xl shadow p-6">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">
+      Search Results for "{{ query }}"
+    </h1>
+
+    {% if courses %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for course in courses %}
+          <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden relative">
+            <img src="{{ course.thumbnail|default:'/static/default-thumb.jpg' }}"
+                 alt="{{ course.title }}"
+                 class="w-full h-40 object-cover" />
+
+            <div class="p-4">
+              <p class="text-sm text-yellow-600 font-semibold flex items-center gap-1">
+                {{ course.rating|floatformat:1 }}
+                <span>⭐</span>
+                <span class="text-gray-500">( {{ course.subscribers }} enrolled )</span>
+              </p>
+              <h3 class="text-lg font-bold text-gray-800 truncate" title="{{ course.title }}">
+                {{ course.title }}
+              </h3>
+
+              <p class="text-sm text-gray-500 mt-1">{{ course.instructor.name|default:"Unknown Instructor" }}</p>
+
+              <div class="flex items-center justify-between text-sm text-gray-600 mt-4">
+                <span>⏱ {{ course.duration|default:"--" }} total hours</span>
+                <span>📂 24</span>
+              </div>
+            </div>
+
+            <div class="absolute top-2 right-2 bg-gray-900 text-white text-xs font-semibold px-2 py-1 rounded">
+              {{ course.price|default:"$19.99" }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-600">No courses found for "{{ query }}".</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}Courses · Admin{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-xl shadow overflow-x-hidden max-h-[75vh] overflow-y-auto table-scroll">
+  <table class="min-w-full text-left text-sm">
+    <thead>
+      <tr class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
+        <th class="p-4 sticky top-0 bg-gray-50 z-10">Thumbnail</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10">Title</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10">Instructor</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Lectures</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Subscribers</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Duration</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Rating</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10 text-center">Price</th>
+        <th class="p-4 sticky top-0 bg-gray-50 z-10"></th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-100">
+      {% for course in courses %}
+        <tr class="hover:bg-gray-50">
+          <!-- Thumbnail -->
+          <td class="p-4">
+            {% if course.thumbnail %}
+              <img src="{{ course.thumbnail }}" alt="" class="h-12 w-20 rounded object-cover" />
+            {% else %}
+              <div class="h-12 w-20 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">
+                —
+              </div>
+            {% endif %}
+          </td>
+
+          <!-- Title -->
+          <td class="p-4">
+            <a href="{{ course.url }}" target="_blank"
+               class="font-medium text-indigo-700 hover:underline">
+              {{ course.title }}
+            </a>
+            <p class="text-xs text-gray-500">{{ course.topic|default:"—" }}</p>
+          </td>
+
+          <!-- Instructor -->
+          <td class="p-4">
+            {{ course.instructor.name }}
+          </td>
+
+          <!-- Lectures -->
+          <td class="p-4 text-center">
+            {{ course.num_lectures }}
+          </td>
+
+          <!-- Subscribers (raw number) -->
+          <td class="p-4 text-center">
+            {{ course.subscribers }}
+          </td>
+
+          <!-- Duration -->
+          <td class="p-4 text-center">
+            {{ course.duration|default:"—" }}
+          </td>
+
+          <!-- Rating -->
+          <td class="p-4 text-center">
+            {{ course.rating|floatformat:1 }}
+          </td>
+
+          <!-- Price -->
+          <td class="p-4 text-center">
+            {% if course.price == "Free" %}
+              <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                Free
+              </span>
+            {% else %}
+              {{ course.price }} {{ course.currency }}
+            {% endif %}
+          </td>
+
+          <!-- Actions -->
+          <td class="p-4 text-right">
+            <a href="{% url 'admin_course_details' course.id %}"
+               class="text-indigo-600 hover:underline text-sm font-medium">Details</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="9" class="p-6 text-center text-gray-500">
+            No courses found.
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
